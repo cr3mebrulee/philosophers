@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:10:09 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/29 16:09:32 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:21:15 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	eat(t_philosopher *philo)
 	pthread_mutex_lock(philo->left_fork);
 	pthread_mutex_lock(philo->right_fork);
 	pthread_mutex_lock(&philo->simulation->print_lock);
-	ft_printf("Philosopher %d is eating\n", philo->id);
+	printf("%lld %d is eating\n", current_timestamp(), philo->id);
 	pthread_mutex_unlock(&philo->simulation->print_lock);
 	pthread_mutex_lock(&philo->meal_time_lock);
 	philo->last_meal_time = current_timestamp();
@@ -42,7 +42,7 @@ void	eat(t_philosopher *philo)
 void	sleep_philo(t_philosopher *philo)
 {
 	pthread_mutex_lock(&philo->simulation->print_lock);
-	ft_printf("Philosopher %d is sleeping\n", philo->id);
+	printf("%lld %d is sleeping\n", current_timestamp(), philo->id);
 	pthread_mutex_unlock(&philo->simulation->print_lock);
 	usleep(philo->simulation->time_to_sleep * 1000);
 }
@@ -51,7 +51,7 @@ void	sleep_philo(t_philosopher *philo)
 void	think(t_philosopher *philo)
 {
 	pthread_mutex_lock(&philo->simulation->print_lock);
-	ft_printf("Philosopher %d is thinking\n", philo->id);
+	printf("%lld %d is thinking\n", current_timestamp(), philo->id);
 	pthread_mutex_unlock(&philo->simulation->print_lock);
 }
 

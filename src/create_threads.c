@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 11:28:53 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/29 15:32:58 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:26:53 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*monitor(void *arg)
 			if (current_timestamp() - sim->philos[i].last_meal_time > sim->time_to_die)
 			{
 				pthread_mutex_lock(&sim->print_lock);
-				ft_printf("Philosopher %d has died\n", sim->philos[i].id);
+				printf("%lld %d died\n", current_timestamp(), sim->philos[i].id);
 				pthread_mutex_unlock(&sim->print_lock);
 				exit(0); // Terminate simulation
 			}
@@ -51,7 +51,7 @@ int	wait_threads(t_simulation *sim)
 	{
 		if (pthread_join(sim->philos[i].thread, NULL) != 0)
 		{
-			ft_printf("Failed to join thread");
+			printf("Failed to join thread");
 			return (1);
 		}
 		i++;
@@ -72,24 +72,24 @@ int	create_threads(t_simulation *sim)
 		if (pthread_create(&sim->philos[i].thread, NULL, routine,
 				(void *)&sim->philos[i]) != 0)
 		{
-			ft_printf("Failed to create thread");
+			printf("Failed to create thread");
 			destroy_mutexes(sim);
 			free_resources(sim);
 			return (1);
 		}
 		i++;
 	}
+	wait_threads(sim);
 	if (pthread_create(&monitor_thread, NULL, monitor, (void *)sim) != 0)
 	{
-		ft_printf("Error: Failed to create monitor thread\n");
+		printf("Error: Failed to create monitor thread\n");
 		destroy_mutexes(sim);
 		free_resources(sim);
 		return (1);
 	}
-	wait_threads(sim);
 	if (pthread_join(monitor_thread, NULL) != 0)
 	{
-		ft_printf("Failed to join monitor thread\n");
+		printf("Failed to join monitor thread\n");
 		return (1);
 	}
 	return (0);
