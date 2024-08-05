@@ -23,7 +23,6 @@ void	destroy_mutexes(t_simulation *sim)
 		pthread_mutex_destroy(&sim->forks[i]);
 		i++;
 	}
-	free(sim->forks);
 }
 
 void	free_resources(t_simulation *sim)

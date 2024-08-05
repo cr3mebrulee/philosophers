@@ -60,8 +60,8 @@ int		initialize_philosophers_and_forks(t_simulation *sim);
 void	print_philosopher_info(t_philosopher *philos, int num);
 void	destroy_mutexes(t_simulation *sim);
 long long	current_timestamp(void);
-int		create_threads(t_simulation *sim);
-int		wait_threads(t_simulation *sim);
+int	create_threads(t_simulation *sim);
+void	*monitor(void *arg);
 void	free_resources(t_simulation *sim);
 void	*routine(void *arg);
 

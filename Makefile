@@ -8,7 +8,8 @@ SRCS 	= src/main.c\
 					src/debugging_functions.c\
 					src/routine.c\
 					src/free_resources.c\
-					src/create_threads.c
+					src/create_threads.c\
+					src/monitor.c
 
 OBJS 	= ${SRCS:.c=.o}
 
