@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:45:43 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/24 15:55:51 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:37:34 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	parse_arguments(int argc, char **argv)
 
 	if (argc < 5 || argc > 6)
 	{
-		ft_printf(USAGE_MESSAGE);
+		printf(USAGE_MESSAGE);
 		return (0);
 	}
 	i = 1;
@@ -46,7 +46,7 @@ int	parse_arguments(int argc, char **argv)
 	{
 		if (!is_number(argv[i]))
 		{
-			ft_printf("Usage: Arguments are positive integers.\n");
+			printf("Usage: Arguments are positive integers.\n");
 			return (0);
 		}
 		i++;

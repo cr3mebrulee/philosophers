@@ -5,7 +5,6 @@ SRCS 	= src/main.c\
 					src/parse_arguments.c\
 					src/initialise_simulations.c\
 					src/initialize_philosophers_and_forks.c\
-					src/debugging_functions.c\
 					src/routine.c\
 					src/free_resources.c\
 					src/create_threads.c\

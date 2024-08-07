@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:10:09 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/31 14:21:15 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:57:35 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ long long	current_timestamp(void)
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	return (tv.tv_sec * 1000LL + tv.tv_usec / 1000);
 }
 
 // Simulate the philosopher eating

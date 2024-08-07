@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:24:10 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/05 16:40:56 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:02:44 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,49 @@ void	check_meal_counts(t_simulation *sim)
 	}
 }
 
+void	report_philosopher_death(t_simulation *sim, int id, long long time)
+{
+	if (pthread_mutex_lock(&sim->print_lock) != 0)
+	{
+		initiate_termination(sim, 1, 1, 1);
+		exit(2);
+	}
+	printf("%lld %d died\n", time, id);
+	if (pthread_mutex_unlock(&sim->print_lock) != 0)
+	{
+		initiate_termination(sim, 1, 1, 1);
+		exit(3);
+	}
+	initiate_termination(sim, 1, 1, 1);
+	exit(3);
+}
+
+void	check_philosopher(t_simulation *sim, int i)
+{
+	long long	current_time;
+
+	if (pthread_mutex_lock(&sim->philos[i].meal_time_lock) != 0)
+	{
+		initiate_termination(sim, 1, 1, 1);
+		exit (1);
+	}
+	current_time = current_timestamp() - sim->philos[i].last_meal_time;
+	if (current_time > sim->time_to_die)
+	{
+		pthread_mutex_unlock(&sim->philos[i].meal_time_lock);
+		report_philosopher_death(sim, sim->philos[i].id, current_time);
+	}
+	if (pthread_mutex_unlock(&sim->philos[i].meal_time_lock) != 0)
+	{
+		initiate_termination(sim, 1, 1, 1);
+		exit (4);
+	}
+}
+
 void	*monitor(void *arg)
 {
 	t_simulation	*sim;
 	int				i;
-	long long int	current_time;
-	long long int	print_time;
 
 	sim = (t_simulation *)arg;
 	while (1)
@@ -52,21 +89,7 @@ void	*monitor(void *arg)
 		i = 0;
 		while (i < sim->number_of_philos)
 		{
-			pthread_mutex_lock(&sim->philos[i].meal_time_lock);
-			current_time = current_timestamp() - sim->philos[i].last_meal_time;
-			if (current_time > sim->time_to_die)
-			{
-				print_time = current_timestamp() - sim->philos[i].last_meal_time;
-				pthread_mutex_lock(&sim->print_lock);
-				printf("Philo %d died at %lld ms, message printed at %lld ms, ",
-					sim->philos[i].id, current_time, print_time);
-				printf("delay: %lld ms\n", print_time - current_time);
-				pthread_mutex_unlock(&sim->print_lock);
-				destroy_mutexes(sim);
-				free_resources(sim);
-				exit (0);
-			}
-			pthread_mutex_unlock(&sim->philos[i].meal_time_lock);
+			check_philosopher(sim, i);
 			i++;
 		}
 		check_meal_counts(sim);

@@ -6,13 +6,13 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:15:06 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/29 16:15:13 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:35:52 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-void	initialize_philosophers(t_simulation *sim)
+int	initialize_philosophers(t_simulation *sim)
 {
 	int	i;
 	int	num;
@@ -27,13 +27,14 @@ void	initialize_philosophers(t_simulation *sim)
 		sim->philos[i].left_fork = &sim->forks[i];
 		sim->philos[i].right_fork = &sim->forks[(i + 1) % num];
 		sim->philos[i].simulation = sim;
-		if (pthread_mutex_init(&sim->philos[i].meal_time_lock, NULL) != 0) // Initialize meal_time_lock
+		if (pthread_mutex_init(&sim->philos[i].meal_time_lock, NULL) != 0)
 		{
-			ft_printf("Error: Failed to initialize meal time mutex for philosopher %d.\n", i + 1);
-			return ;
+			printf("Error: Failed to initialize meal time mutex.\n");
+			return (1);
 		}
 		i++;
 	}
+	return (0);
 }
 
 int	initialize_forks(t_simulation *sim)
@@ -47,7 +48,7 @@ int	initialize_forks(t_simulation *sim)
 	{
 		if (pthread_mutex_init(&sim->forks[i], NULL) != 0)
 		{
-			ft_printf("Error: Failed to initialize mutex.\n");
+			printf("Error: Failed to initialize forks mutex.\n");
 			return (1);
 		}
 		i++;
@@ -65,15 +66,18 @@ int	initialize_philosophers_and_forks(t_simulation *sim)
 	sim->philos = malloc(sizeof(t_philosopher) * sim->number_of_philos);
 	if (!sim->philos)
 	{
-		free(sim->forks);
 		return (1);
 	}
 	if (initialize_forks(sim) != 0)
 	{
-		free(sim->philos);
-		free(sim->forks);
+		free_resources(sim);
 		return (1);
 	}
-	initialize_philosophers(sim);
+	if (initialize_philosophers(sim) != 0)
+	{
+		destroy_forks(sim);
+		free_resources(sim);
+		return (1);
+	}
 	return (0);
 }
