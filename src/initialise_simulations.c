@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:11:18 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/25 10:24:40 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:14:00 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	initialise_simulations(int argc, char **argv, t_simulation *sim)
 {
+	sim->stop_simulation = 0;
 	sim->number_of_philos = ft_atoi(argv[1]);
 	sim->time_to_die = ft_atoi(argv[2]);
 	sim->time_to_eat = ft_atoi(argv[3]);

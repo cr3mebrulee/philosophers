@@ -6,20 +6,20 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:34:18 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/07 14:58:13 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:07:24 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-void	destroy_meal_time_lock(t_simulation *sim)
+void	destroy_time_lock(t_simulation *sim)
 {
 	int	i;
 
 	i = 0;
 	while (i < sim->number_of_philos)
 	{
-		pthread_mutex_destroy(&sim->philos[i].meal_time_lock);
+		pthread_mutex_destroy(&sim->philos[i].time_lock);
 		i++;
 	}
 	return ;
@@ -63,7 +63,7 @@ void	initiate_termination(t_simulation *sim, int f_f, int m_f, int pr_f)
 	}
 	if (pr_f)
 	{
-		destroy_meal_time_lock(sim);
+		destroy_time_lock(sim);
 	}
 	free_resources(sim);
 }

@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:04 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/07 14:59:51 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:40:42 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,9 @@ int	main(int argc, char **argv)
 		printf("Error: Failed to initialize philosophers and forks.\n");
 		return (1);
 	}
-	if (pthread_mutex_init(&sim.print_lock, NULL) != 0)
-	{
-		printf("Error: Failed to initialize print mutex.\n");
-		initiate_termination(&sim, 1, 1, 0);
-		return (1);
-	}
 	if (create_threads(&sim) != 0)
 		return (1);
+	monitor_state(&sim);
 	initiate_termination(&sim, 1, 1, 1);
 	return (0);
 }

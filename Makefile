@@ -8,7 +8,9 @@ SRCS 	= src/main.c\
 					src/routine.c\
 					src/free_resources.c\
 					src/create_threads.c\
-					src/monitor.c
+					src/monitor.c\
+					src/responsive_sleep.c\
+					src/monitor_death.c
 
 OBJS 	= ${SRCS:.c=.o}
 

@@ -6,22 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 11:28:53 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/07 16:42:13 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:32:37 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
-
-int	create_monitor_thread(pthread_t	*monitor_thread, t_simulation *sim)
-{
-	if (pthread_create(monitor_thread, NULL, monitor, (void *)sim) != 0)
-	{
-		printf("Error: Failed to create monitor thread\n");
-		initiate_termination(sim, 1, 1, 1);
-		exit (0);
-	}
-	return (0);
-}
 
 int	create_routine_thread(t_simulation *sim)
 {
@@ -32,6 +21,7 @@ int	create_routine_thread(t_simulation *sim)
 	num = sim->number_of_philos;
 	while (i < num)
 	{
+		//sim->philos[i].last_meal_time = current_timestamp();
 		if (pthread_create(&sim->philos[i].thread, NULL, routine,
 				(void *)&sim->philos[i]) != 0)
 		{
@@ -40,6 +30,17 @@ int	create_routine_thread(t_simulation *sim)
 			exit (0);
 		}
 		i++;
+	}
+	return (0);
+}
+
+int	create_monitor_thread(pthread_t	*monitor_thread, t_simulation *sim)
+{
+	if (pthread_create(monitor_thread, NULL, monitor, (void *)sim) != 0)
+	{
+		printf("Error: Failed to create monitor thread\n");
+		initiate_termination(sim, 1, 1, 1);
+		exit (0);
 	}
 	return (0);
 }
