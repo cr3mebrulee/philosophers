@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:24:10 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/14 15:33:17 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:42:00 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	check_meal_counts(t_simulation *sim)
 		pthread_mutex_lock(&sim->philos[i].time_lock);
 		if (sim->philos[i].meals_eaten < sim->number_of_meals)
 		{
-			all_philos_done = 0;
+			sim->philos[i].status = SATISFIED;
+			return (0);
 		}
 		pthread_mutex_unlock(&sim->philos[i].time_lock);
 		i++;
@@ -54,15 +55,17 @@ int	philosopher_state(t_philosopher *philo, t_simulation *sim, char *active, int
 	current_time = current_timestamp() - philo->meal_time;
 	if (current_time > sim->time_to_die)
 	{
-		philo->if_alive = 0;
+		philo->if_alive = DEAD;
 		pthread_mutex_lock(&sim->print_lock);
 		printf("%lld %d died\n", time, &sim->philos[i].id);
 		pthread_mutex_unlock(&sim->print_lock);
 		pthread_mutex_unlock(&philo->time_lock);
 		return (1);
 	}
-	else if (!)
-	check_meal_counts(sim);
+	if (check_meal_counts(sim))
+	{
+		
+	}
 	pthread_mutex_unlock(&philo->time_lock);
 	return (0);
 }

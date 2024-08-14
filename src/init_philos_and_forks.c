@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialize_philosophers_and_forks.c                :+:      :+:    :+:   */
+/*   init_philosophers_and_forks.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:15:06 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/14 13:47:56 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:58:20 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-int	initialize_mutexes(t_simulation *sim)
+int	init_mutexes(t_simulation *sim)
 {
 	int	i;
 	int	num;
@@ -38,14 +38,13 @@ int	initialize_mutexes(t_simulation *sim)
 	return (0);
 }
 
-int	initialize_philosophers(t_simulation *sim)
+int	init_philos(t_simulation *sim)
 {
 	int	i;
 	int	num;
 
 	i = 0;
 	num = sim->number_of_philos;
-	//sim->stop_simulation = 0;
 	while (i < num)
 	{
 		sim->philos[i].id = i + 1;
@@ -68,7 +67,7 @@ int	initialize_philosophers(t_simulation *sim)
 	return (0);
 }
 
-int	initialize_philosophers_and_forks(t_simulation *sim)
+int	init_philos_and_forks(t_simulation *sim)
 {
 	sim->forks = malloc(sizeof(pthread_mutex_t) * sim->number_of_philos);
 	if (!sim->forks)
@@ -87,12 +86,12 @@ int	initialize_philosophers_and_forks(t_simulation *sim)
 		return (1);
 	}
 	memset(sim->thread, 0, sizeof(pthread_t) * sim->number_of_philos);
-	if (initialize_mutexes(sim) != 0)
+	if (init_mutexes(sim) != 0)
 	{
 		free_resources(sim);
 		return (1);
 	}
-	if (initialize_philosophers(sim) != 0)
+	if (init_philosophers(sim) != 0)
 	{
 		destroy_forks(sim);
 		free_resources(sim);

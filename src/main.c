@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:04 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/14 13:40:42 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:58:33 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ int	main(int argc, char **argv)
 
 	if (!parse_arguments(argc, argv))
 		return (1);
-	if (initialise_simulations(argc, argv, &sim) != 0)
+	if (init_simulations(argc, argv, &sim) != 0)
 	{
 		printf("Error: Failed to initialize simulation\n");
 		return (1);
 	}
-	if (initialize_philosophers_and_forks(&sim) != 0)
+	if (init_philosophers_and_forks(&sim) != 0)
 	{
 		printf("Error: Failed to initialize philosophers and forks.\n");
 		return (1);
