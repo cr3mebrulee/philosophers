@@ -21,6 +21,7 @@
 # include <pthread.h>
 # include <unistd.h>
 # include <sys/time.h>
+# include <stdint.h>
 
 # define USAGE_MESSAGE "\
 Usage: number_of_philosophers time_to_die time_to_eat \
@@ -33,20 +34,23 @@ typedef enum e_enumeration
 	SATISFIED
 }	t_philosopher_status;
 
+//Storage of uniq data for each philosopher
 typedef struct s_philosopher
 {
 	int					id;
 	int					meals_eaten;
 	int					if_alive;
-	int					start_time;
-	long long int		meal_time;
+	long long			start_sim_time;
+	long long			last_meal_time;
 	pthread_mutex_t		*left_fork; // lock for the 1st fork
 	pthread_mutex_t		*right_fork; // lock for the 2nd fork
 	pthread_mutex_t		time_lock; // lock for meal_time
-	struct s_simulation	*simulation;
-	t_philosopher		status;
+	struct s_simulation	*sim;
+	pthread_t			thread;
+	//t_philosopher		status;
 }	t_philosopher;
 
+//Storage of the information shared by all philosophers
 typedef struct s_simulation
 {
 	int					number_of_philos;
@@ -54,9 +58,8 @@ typedef struct s_simulation
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					number_of_meals;
-	int					stop_simulation;
-	int					satrt_time;
-	pthread_t			*thread;
+	long long			start_time;
+	pthread_t			monitor_thread;
 	pthread_mutex_t		*forks; // lock for array of forks
 	pthread_mutex_t		print_lock; // lock to print
 	t_philosopher		*philos;
@@ -66,14 +69,19 @@ void		print_simulation(t_simulation *sim);
 int			is_number(const char *str);
 int			parse_arguments(int argc, char **argv);
 int			init_simulations(int argc, char **argv, t_simulation *sim);
-int			init_philos_and_forks(t_simulation *sim);
-long long	current_timestamp(void);
-void		monitor_state(t_simulation *sim, char active);
-int			create_threads(t_simulation *sim);
-void		initiate_termination(t_simulation *sim, int f_f, int m_f, int pr_f);
-void		free_resources(t_simulation *sim);
-void		destroy_forks(t_simulation *sim);
-void		destroy_meal_time_lock(t_simulation *sim);
+int			init_mutexes(t_simulation *sim);
+int			init_philos(t_simulation *sim);
+int			allocate_memory(t_simulation *sim);
+void		precise_sleep(int ms);
+long long	current_time(void);
+//void 		*monitor_state(void *arg);
 void		*routine(void *arg);
+void		print_philosopher_info(t_simulation *sim, int num);
+void		print_simulation(t_simulation *sim);
+int			create_threads(t_simulation *sim);
+int 		join_threads(t_simulation *sim);
+void		initiate_termination(t_simulation *sim, int f_f, int m_f, int pr_f);
+int 		free_resources(t_simulation *sim, int forks, int philos);
+
 
 #endif

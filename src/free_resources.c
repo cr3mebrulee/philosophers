@@ -65,12 +65,25 @@ void	initiate_termination(t_simulation *sim, int f_f, int m_f, int pr_f)
 	{
 		destroy_time_lock(sim);
 	}
-	free_resources(sim);
+	free_resources(sim, 1, 1);
 }
 
-void	free_resources(t_simulation *sim)
+int free_resources(t_simulation *sim, int forks, int philos)
 {
-	free(sim->philos);
-	free(sim->forks);
-	return ;
+    if (forks == 1 && sim->forks != NULL)
+    {
+        free(sim->forks);
+        sim->forks = NULL;
+    }
+    if (philos == 1 && sim->philos != NULL)
+    {
+        free(sim->philos);
+        sim->philos = NULL;
+    }
+    // if (thread == 1)
+    // {
+    //     free(sim->monitor_thread);
+    //     sim->monitor_thread = NULL;
+    // }
+    return (0);
 }

@@ -12,7 +12,7 @@
 
 #include "../include/philosophers.h"
 
-void	responsive_sleep(unsigned long duration, t_simulation *sim)
+void	precise_sleep(unsigned long duration, t_simulation *sim)
 {
 	unsigned long	start;
 

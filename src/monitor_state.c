@@ -12,7 +12,7 @@
 
 #include "../include/philosophers.h"
 
-void	monitor_state(t_simulation *sim, char active);
+/*check*/
 
 int	report_philosopher_death(t_simulation *sim, int id, long long time)
 {
@@ -38,21 +38,21 @@ int	check_meal_counts(t_simulation *sim)
 		pthread_mutex_unlock(&sim->philos[i].time_lock);
 		i++;
 	}
-	if (all_philos_done)
-	{
-		free(sim->philos);
-		free(sim->forks);
-		return (1);
-	}
+	// if (all_philos_done)
+	// {
+	// 	free(sim->philos);
+	// 	free(sim->forks);
+	// 	return (1);
+	// }
 	return (0);
 }
 
-int	philosopher_state(t_philosopher *philo, t_simulation *sim, char *active, int i)
+int	if_alive(t_philosopher *philo, t_simulation *sim, char *active, int i)
 {
 	long long	current_time;
 
 	pthread_mutex_lock(&philo->time_lock);
-	current_time = current_timestamp() - philo->meal_time;
+	current_time = current_timestamp() - philo->last_meal_time;
 	if (current_time > sim->time_to_die)
 	{
 		philo->if_alive = DEAD;
@@ -62,25 +62,23 @@ int	philosopher_state(t_philosopher *philo, t_simulation *sim, char *active, int
 		pthread_mutex_unlock(&philo->time_lock);
 		return (1);
 	}
-	if (check_meal_counts(sim))
-	{
-		
-	}
 	pthread_mutex_unlock(&philo->time_lock);
 	return (0);
 }
 
-void	monitor_state(t_simulation *sim, char active)
+void *monitor_state(void *arg)
 {
+	t_simulation *sim = (t_simulation *)arg;
 	int	i;
+	int active = 0;
 
-	while (active)
+	while (1)
 	{
 		i = 0;
 		active = 0;
 		while (i < sim->number_of_philos)
 		{
-			if (!philosopher_state(&sim->philos[i], sim, &active, i))
+			if (!if_alive(&sim->philos[i], sim, &active, i))
 			{
 				active = 0;
 				break ;

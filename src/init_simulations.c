@@ -14,7 +14,6 @@
 
 int	init_simulations(int argc, char **argv, t_simulation *sim)
 {
-	sim->stop_simulation = 0;
 	sim->number_of_philos = ft_atoi(argv[1]);
 	sim->time_to_die = ft_atoi(argv[2]);
 	sim->time_to_eat = ft_atoi(argv[3]);

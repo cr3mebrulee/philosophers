@@ -3,13 +3,14 @@ LIBFT	= ./libft/libft.a
 
 SRCS 	= src/main.c\
 					src/parse_arguments.c\
-					src/initialise_simulations.c\
-					src/init_philos_and_forks.c\
-					src/routine.c\
-					src/free_resources.c\
+					src/init_simulations.c\
+					src/init_philos_and_mutexes.c\
 					src/create_threads.c\
-					src/responsive_sleep.c\
-					src/monitor_state.c
+					src/routine.c\
+					src/debugging_functions.c\
+					src/free_resources.c\
+					src/current_time.c\
+					src/join_threads.c
 
 OBJS 	= ${SRCS:.c=.o}
 

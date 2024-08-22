@@ -12,22 +12,22 @@
 
 #include "../include/philosophers.h"
 
-void	print_philosopher_info(t_philosopher *philos, int num)
+void	print_philosopher_info(t_simulation *sim, int num)
 {
 	int	i;
+	//t_philosopher *philos;
 
 	for (i = 0; i < num; i++)
 	{
-		printf("Philosopher %d:\n", philos[i].id);
-		printf("ID of philosopher: %d\n", philos[i].id);
-		printf("Meals eaten: %d\n", philos[i].meals_eaten);
-		printf("Last meal time: %lld\n", philos[i].last_meal_time);
-		printf("Left fork: %p\n", (void *)philos[i].left_fork);
-		printf("Right fork: %p\n", (void *)philos[i].right_fork);
-		printf("Simulation: %p\n", (void *)philos[i].simulation);
+		printf("Philosopher %d:\n", sim->philos[i].id);
+		printf("ID of philosopher: %d\n", sim->philos[i].id);
+		printf("Meals eaten: %d\n", sim->philos[i].meals_eaten);
+		printf("Last meal time: %lld\n", sim->philos[i].last_meal_time);
+		printf("Left fork: %p\n", (void *)sim->philos[i].left_fork);
+		printf("Right fork: %p\n", (void *)sim->philos[i].right_fork);
+		printf("Simulation: %p\n", (void *)sim->philos[i].sim);
 		printf("\n");
 	}
-
 }
 
 void	print_simulation(t_simulation *sim)
