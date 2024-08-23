@@ -12,62 +12,6 @@
 
 #include "../include/philosophers.h"
 
-void	destroy_time_lock(t_simulation *sim)
-{
-	int	i;
-
-	i = 0;
-	while (i < sim->number_of_philos)
-	{
-		pthread_mutex_destroy(&sim->philos[i].time_lock);
-		i++;
-	}
-	return ;
-}
-
-void	destroy_forks(t_simulation *sim)
-{
-	int	i;
-
-	i = 0;
-	while (i < sim->number_of_philos)
-	{
-		pthread_mutex_destroy(&sim->forks[i]);
-		i++;
-	}
-	return ;
-}
-
-// void	join_all_threads(t_simulation *sim)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < sim->number_of_philos)
-// 	{
-// 		pthread_join(sim->threads[i], NULL);
-// 		i++;
-// 	}
-// }
-
-void	initiate_termination(t_simulation *sim, int f_f, int m_f, int pr_f)
-{
-	//join_all_threads(sim);
-	if (f_f == 1)
-	{
-		destroy_forks(sim);
-	}
-	if (m_f == 1)
-	{
-		pthread_mutex_destroy(&sim->print_lock);
-	}
-	if (pr_f)
-	{
-		destroy_time_lock(sim);
-	}
-	free_resources(sim, 1, 1);
-}
-
 int free_resources(t_simulation *sim, int forks, int philos)
 {
     if (forks == 1 && sim->forks != NULL)
@@ -80,10 +24,5 @@ int free_resources(t_simulation *sim, int forks, int philos)
         free(sim->philos);
         sim->philos = NULL;
     }
-    // if (thread == 1)
-    // {
-    //     free(sim->monitor_thread);
-    //     sim->monitor_thread = NULL;
-    // }
     return (0);
 }

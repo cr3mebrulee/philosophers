@@ -12,16 +12,6 @@
 
 #include "../include/philosophers.h"
 
-/*check*/
-
-int	report_philosopher_death(t_simulation *sim, int id, long long time)
-{
-	pthread_mutex_lock(&sim->print_lock);
-	printf("%lld %d died\n", time, id);
-	pthread_mutex_unlock(&sim->print_lock);
-	return (0);
-}
-
 int	check_meal_counts(t_simulation *sim)
 {
 	int	i;
@@ -32,60 +22,57 @@ int	check_meal_counts(t_simulation *sim)
 		pthread_mutex_lock(&sim->philos[i].time_lock);
 		if (sim->philos[i].meals_eaten < sim->number_of_meals)
 		{
-			sim->philos[i].status = SATISFIED;
-			return (0);
+			pthread_mutex_unlock(&sim->philos[i].time_lock);
+			return (0); // Not all philosophers are satisfied yet
 		}
 		pthread_mutex_unlock(&sim->philos[i].time_lock);
 		i++;
 	}
-	// if (all_philos_done)
-	// {
-	// 	free(sim->philos);
-	// 	free(sim->forks);
-	// 	return (1);
-	// }
-	return (0);
+	// All philosophers have eaten the required number of meals
+	// You can add any necessary cleanup here or handle it elsewhere.
+	return (1);
 }
 
-int	if_alive(t_philosopher *philo, t_simulation *sim, char *active, int i)
+int	if_alive(t_philosopher *philo, t_simulation *sim)
 {
-	long long	current_time;
+	long long	time_since_last_meal;
 
 	pthread_mutex_lock(&philo->time_lock);
-	current_time = current_timestamp() - philo->last_meal_time;
-	if (current_time > sim->time_to_die)
+	time_since_last_meal = current_time() - philo->last_meal_time;
+	if (time_since_last_meal > sim->time_to_die)
 	{
 		philo->if_alive = DEAD;
-		pthread_mutex_lock(&sim->print_lock);
-		printf("%lld %d died\n", time, &sim->philos[i].id);
-		pthread_mutex_unlock(&sim->print_lock);
 		pthread_mutex_unlock(&philo->time_lock);
-		return (1);
+		pthread_mutex_lock(&sim->print_lock);
+		printf("\033[1;31m%lld %d died\033[0m\n", time_since_last_meal, philo->id);
+		pthread_mutex_unlock(&sim->print_lock);
+		return (0);
 	}
 	pthread_mutex_unlock(&philo->time_lock);
-	return (0);
+	return (1); // Return 1 to indicate the philosopher is still alive
 }
 
-void *monitor_state(void *arg)
+void *monitor(void *arg)
 {
 	t_simulation *sim = (t_simulation *)arg;
 	int	i;
-	int active = 0;
 
 	while (1)
 	{
 		i = 0;
-		active = 0;
 		while (i < sim->number_of_philos)
 		{
-			if (!if_alive(&sim->philos[i], sim, &active, i))
+			if (!if_alive(&sim->philos[i], sim))
 			{
-				active = 0;
-				break ;
+				return (NULL);
 			}
 			i++;
 		}
-		usleep(1000);
+		if (check_meal_counts(sim))
+		{
+			return (NULL);
+		}
+		usleep(1000); // Sleep for a short time to avoid busy waiting
 	}
 	return (NULL);
 }

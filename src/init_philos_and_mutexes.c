@@ -48,7 +48,6 @@ int	init_philos(t_simulation *sim)
 	while (i < num)
 	{
 		sim->philos[i].id = i + 1;
-		//printf("Philos id: %d\n", sim->philos[i].id);
 		sim->philos[i].meals_eaten = 0;
 		sim->philos[i].if_alive = ALIVE;
 		if(sim->philos[i].id == sim->number_of_philos)
@@ -62,7 +61,6 @@ int	init_philos(t_simulation *sim)
 			sim->philos[i].left_fork = &sim->forks[(i + 1) % num];
 		}
 		sim->philos[i].sim = sim;
-		sim->philos[i].start_sim_time = current_time();
 		sim->philos[i].last_meal_time = current_time();
 		i++;
 	}
@@ -84,12 +82,5 @@ int	allocate_memory(t_simulation *sim)
 		free_resources(sim, 1, 0);
 		return (1);
 	}
-	// sim->monitor_thread = malloc(sizeof(pthread_t));
-	// if (!sim->monitor_thread)
-	// {
-	// 	free_resources(sim, 1, 1, 0);
-	// 	return (1);
-	// }
-	// memset(&sim->monitor_thread, 0, sizeof(pthread_t));
 	return (0);
 }

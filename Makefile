@@ -10,7 +10,7 @@ SRCS 	= src/main.c\
 					src/debugging_functions.c\
 					src/free_resources.c\
 					src/current_time.c\
-					src/join_threads.c
+					src/monitor.c
 
 OBJS 	= ${SRCS:.c=.o}
 

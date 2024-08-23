@@ -40,14 +40,13 @@ typedef struct s_philosopher
 	int					id;
 	int					meals_eaten;
 	int					if_alive;
-	long long			start_sim_time;
+	int					status;
 	long long			last_meal_time;
-	pthread_mutex_t		*left_fork; // lock for the 1st fork
-	pthread_mutex_t		*right_fork; // lock for the 2nd fork
-	pthread_mutex_t		time_lock; // lock for meal_time
+	pthread_mutex_t		*left_fork;
+	pthread_mutex_t		*right_fork;
+	pthread_mutex_t		time_lock;
 	struct s_simulation	*sim;
 	pthread_t			thread;
-	//t_philosopher		status;
 }	t_philosopher;
 
 //Storage of the information shared by all philosophers
@@ -58,10 +57,9 @@ typedef struct s_simulation
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					number_of_meals;
-	long long			start_time;
 	pthread_t			monitor_thread;
-	pthread_mutex_t		*forks; // lock for array of forks
-	pthread_mutex_t		print_lock; // lock to print
+	pthread_mutex_t		*forks;
+	pthread_mutex_t		print_lock;
 	t_philosopher		*philos;
 }	t_simulation;
 
@@ -74,7 +72,7 @@ int			init_philos(t_simulation *sim);
 int			allocate_memory(t_simulation *sim);
 void		precise_sleep(int ms);
 long long	current_time(void);
-//void 		*monitor_state(void *arg);
+void 		*monitor(void *arg);
 void		*routine(void *arg);
 void		print_philosopher_info(t_simulation *sim, int num);
 void		print_simulation(t_simulation *sim);

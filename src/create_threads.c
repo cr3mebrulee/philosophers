@@ -12,15 +12,25 @@
 
 #include "../include/philosophers.h"
 
-// int	create_monitor_thread(t_simulation *sim)
-// {
-// 	if (pthread_create(&(sim->monitor_thread), NULL, monitor_state, (void *)sim) != 0)
-// 	{
-// 		printf("Error: Failed to create monitor thread\n");
-// 		return (1);
-// 	}
-// 	return (0);
-// }
+int	create_monitor_thread(t_simulation *sim)
+{
+	int result;
+
+    // Ensure sim is not null
+    if (!sim)
+    {
+        printf("Error: Simulation struct is null\n");
+        return (1);
+    }
+    // Attempt to create the monitor thread
+    result = pthread_create(&(sim->monitor_thread), NULL, monitor, (void *)sim);
+    if (result != 0)
+    {
+        printf("Error: Failed to create monitor thread, error code: %d\n", result);
+        return (1);
+    }
+    return (0);
+}
 
 int	create_philos_thread(t_simulation *sim)
 {
@@ -49,10 +59,10 @@ int	create_threads(t_simulation *sim)
 	{
 		return (1);
 	}
-	// if(create_monitor_thread(sim) != 0)
-	// {
-	// 	//join_philos_thread(sim);
-	// 	return (1);
-	// }
+	if(create_monitor_thread(sim) != 0)
+	{
+		//join_philos_thread(sim);
+		return (1);
+	}
 	return (0);
 }
