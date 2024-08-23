@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:20:15 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/23 18:08:24 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/23 19:34:18 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_philosopher
 	int					id;
 	int					meals_eaten;
 	int					if_alive;
-	int					status;
+	int					on_fork;
 	long long			last_meal_time;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;
