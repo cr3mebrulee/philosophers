@@ -6,13 +6,13 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:10:09 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/14 12:07:38 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/23 18:25:54 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-static char take_forks(t_philosopher *philo)
+static char	take_forks(t_philosopher *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
 	if (philo->right_fork == philo->left_fork)
@@ -21,12 +21,12 @@ static char take_forks(t_philosopher *philo)
 		pthread_mutex_unlock(philo->right_fork);
 		return (1);
 	}
-    pthread_mutex_lock(philo->left_fork);
-    pthread_mutex_lock(&philo->sim->print_lock);
-    printf("%lld %d has taken a fork\n", current_time(), philo->id);
+	pthread_mutex_lock(philo->left_fork);
+	pthread_mutex_lock(&philo->sim->print_lock);
+	printf("%lld %d has taken a fork\n", current_time(), philo->id);
 	printf("%lld %d has taken a fork\n", current_time(), philo->id);
 	pthread_mutex_unlock(&philo->sim->print_lock);
-    return (0);
+	return (0);
 }
 
 static char	eat(t_philosopher *philo)
@@ -48,7 +48,7 @@ static char	eat(t_philosopher *philo)
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_lock(&philo->sim->print_lock);
 	printf("\033[1;31mPhilo %d ate %d times\033[0m\n", philo->id, philo->meals_eaten);
-	pthread_mutex_unlock(&philo->sim->print_lock);	
+	pthread_mutex_unlock(&philo->sim->print_lock);
 	return (0);
 }
 

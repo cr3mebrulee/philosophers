@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:20:15 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/14 17:29:12 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/23 18:08:24 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,5 @@ int			create_threads(t_simulation *sim);
 int 		join_threads(t_simulation *sim);
 void		initiate_termination(t_simulation *sim, int f_f, int m_f, int pr_f);
 int 		free_resources(t_simulation *sim, int forks, int philos);
-
 
 #endif

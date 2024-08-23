@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_philosophers_and_forks.c                      :+:      :+:    :+:   */
+/*   init_philos_and_mutexes.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:15:06 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/14 15:58:20 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/23 18:21:29 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	init_philos(t_simulation *sim)
 		sim->philos[i].id = i + 1;
 		sim->philos[i].meals_eaten = 0;
 		sim->philos[i].if_alive = ALIVE;
+		//assign left and right forks to philosophers with opposite order for the last philosopher
 		if(sim->philos[i].id == sim->number_of_philos)
 		{
 			sim->philos[i].right_fork = &sim->forks[(i + 1) % num];

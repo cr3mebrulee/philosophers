@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:04 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/14 15:58:33 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/23 18:25:14 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,29 @@
 /*release resources*/
 /*error handling*/
 
-int join_philos_threads(t_simulation *sim)
+int	join_philos_threads(t_simulation *sim)
 {
-    int i;
+	int	i;
 
-    for (i = 0; i < sim->number_of_philos; i++)
-    {
-        if (pthread_join(sim->philos[i].thread, NULL) != 0)
-        {
-            printf("Error: Failed to join philosopher thread %d\n", i);
-            return (1);
-        }
-    }
-    return (0);
+	for (i = 0; i < sim->number_of_philos; i++)
+	{
+		if (pthread_join(sim->philos[i].thread, NULL) != 0)
+		{
+			printf("Error: Failed to join philosopher thread %d\n", i);
+			return (1);
+		}
+	}
+	return (0);
 }
 
-int join_monitor_thread(t_simulation *sim)
+int	join_monitor_thread(t_simulation *sim)
 {
-    if (pthread_join(sim->monitor_thread, NULL) != 0)
-    {
-        printf("Error: Failed to join monitor thread\n");
-        return (1);
-    }
-    return (0);
+	if (pthread_join(sim->monitor_thread, NULL) != 0)
+	{
+		printf("Error: Failed to join monitor thread\n");
+		return (1);
+	}
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -75,18 +75,18 @@ int	main(int argc, char **argv)
 		//free_resources(&sim, 1, 1);
 		return (1);
 	}
-	  // Join philosopher threads
-    if (join_philos_threads(&sim) != 0)
-    {
-        printf("Error: Failed to join philosopher threads\n");
-        return (1);
-    }
-    // Join monitor thread
-    if (join_monitor_thread(&sim) != 0)
-    {
-        printf("Error: Failed to join monitor thread\n");
-        return (1);
-    }
+	// Let main function to wait for philosopher threads finishing work
+	if (join_philos_threads(&sim) != 0)
+	{
+		printf("Error: Failed to join philosopher threads\n");
+		return (1);
+	}
+	// Join monitor thread
+	if (join_monitor_thread(&sim) != 0)
+	{
+		printf("Error: Failed to join monitor thread\n");
+		return (1);
+	}
 	free_resources(&sim, 1, 1);
 	return (0);
 }
