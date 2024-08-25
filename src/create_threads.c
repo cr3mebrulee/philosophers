@@ -42,7 +42,7 @@ int	create_philos_thread(t_simulation *sim)
 	while (i < num)
 	{
 		//sim->philos[i].last_meal_time = current_timestamp();
-		if (pthread_create(&sim->philos[i].thread, NULL, routine,
+		if (pthread_create(&(sim->philos[i].thread), NULL, routine,
 				(void *)&sim->philos[i]) != 0)
 		{
 			printf("Error: Failed to create routine thread");

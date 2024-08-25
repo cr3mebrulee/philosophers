@@ -59,7 +59,8 @@ typedef struct s_simulation
 	int					number_of_meals;
 	pthread_t			monitor_thread;
 	pthread_mutex_t		*forks;
-	pthread_mutex_t		print_lock;
+	pthread_mutex_t		*print_lock;
+	pthread_mutex_t		*state;
 	t_philosopher		*philos;
 }	t_simulation;
 
@@ -74,11 +75,8 @@ void		precise_sleep(int ms);
 long long	current_time(void);
 void 		*monitor(void *arg);
 void		*routine(void *arg);
-void		print_philosopher_info(t_simulation *sim, int num);
 void		print_simulation(t_simulation *sim);
 int			create_threads(t_simulation *sim);
-int 		join_threads(t_simulation *sim);
-void		initiate_termination(t_simulation *sim, int f_f, int m_f, int pr_f);
 int 		free_resources(t_simulation *sim, int forks, int philos);
 
 #endif
