@@ -17,30 +17,28 @@ static char	take_forks(t_philosopher *philo)
 	pthread_mutex_lock(philo->sim->state);
 	if(philo->sim->if_alive == DEAD)
 	{
-		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
 	pthread_mutex_unlock(philo->sim->state);
 	pthread_mutex_lock(philo->right_fork);
+	pthread_mutex_lock(philo->sim->state);
 	philo->on_fork = 1;
 	if (philo->right_fork == philo->left_fork)
 	{
 		printf("%lld %d has taken a fork\n", current_time(), philo->id);
 		return (1);
 	}
-	pthread_mutex_lock(philo->sim->state);
 	if(philo->sim->if_alive == DEAD)
 	{
-		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
-	pthread_mutex_unlock(philo->sim->state);
-	pthread_mutex_lock(philo->left_fork);
 	philo->on_fork = 2;
 	pthread_mutex_lock(philo->sim->print_lock);
 	printf("%lld %d has taken a fork\n", current_time(), philo->id);
 	printf("%lld %d has taken a fork\n", current_time(), philo->id);
 	pthread_mutex_unlock(philo->sim->print_lock);
+	pthread_mutex_unlock(philo->sim->state);
+	pthread_mutex_lock(philo->left_fork);
 	return (0);
 }
 
@@ -49,7 +47,6 @@ static char	eat(t_philosopher *philo)
 	pthread_mutex_lock(philo->sim->state);
 	if(philo->sim->if_alive == DEAD)
 	{
-		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
 	pthread_mutex_unlock(philo->sim->state);
@@ -63,14 +60,6 @@ static char	eat(t_philosopher *philo)
 	precise_sleep(philo->sim->time_to_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_lock(philo->sim->state);
-	philo->on_fork = 0;
-	if(philo->sim->if_alive == DEAD)
-	{
-		pthread_mutex_unlock(philo->sim->state);
-		return (1);
-	}
-	pthread_mutex_unlock(philo->sim->state);
 	return (0);
 }
 
@@ -82,9 +71,9 @@ static char	sleep_philo(t_philosopher *philo)
 	pthread_mutex_unlock(philo->sim->print_lock);
 	precise_sleep(philo->sim->time_to_sleep);
 	pthread_mutex_lock(philo->sim->state);
-	if(philo->sim->if_alive == DEAD)
+	philo->on_fork = 0;
+	if(philo->sim->if_alive == DEAD || philo->sim->satisfaction == SATISFIED)
 	{
-		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
 	pthread_mutex_unlock(philo->sim->state);
@@ -100,7 +89,6 @@ static char	think(t_philosopher *philo)
 	pthread_mutex_lock(philo->sim->state);
 	if(philo->sim->if_alive == DEAD)
 	{
-		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
 	pthread_mutex_unlock(philo->sim->state);
@@ -133,5 +121,6 @@ void	*routine(void *arg)
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
 	}
+	pthread_mutex_unlock(philo->sim->state);
 	return (NULL);
 }

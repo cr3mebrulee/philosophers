@@ -16,16 +16,17 @@ int meals_finished(t_simulation *sim)
 {
     int i;
 
-    //pthread_mutex_lock(sim->state);
+    pthread_mutex_lock(sim->state);
     for (i = 0; i < sim->number_of_philos; i++)
     {
         if (sim->philos[i].meals_eaten < sim->number_of_meals)
         {
-           // pthread_mutex_unlock(sim->state);
+            pthread_mutex_unlock(sim->state);
             return (0);  // Not all philosophers have finished eating
         }
     }
-  // pthread_mutex_unlock(sim->state);
+    sim->satisfaction = SATISFIED;
+    pthread_mutex_unlock(sim->state);
     return (1);  // All philosophers have finished eating
 }
 
