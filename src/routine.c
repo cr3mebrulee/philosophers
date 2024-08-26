@@ -14,6 +14,13 @@
 
 static char	take_forks(t_philosopher *philo)
 {
+	pthread_mutex_lock(philo->sim->state);
+	if(philo->if_alive == DEAD)
+	{
+		pthread_mutex_unlock(philo->sim->state);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->sim->state);
 	pthread_mutex_lock(philo->right_fork);
 	philo->on_fork = 1;
 	if (philo->right_fork == philo->left_fork)
@@ -21,6 +28,13 @@ static char	take_forks(t_philosopher *philo)
 		printf("%lld %d has taken a fork\n", current_time(), philo->id);
 		return (1);
 	}
+	pthread_mutex_lock(philo->sim->state);
+	if(philo->if_alive == DEAD)
+	{
+		pthread_mutex_unlock(philo->sim->state);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->sim->state);
 	pthread_mutex_lock(philo->left_fork);
 	philo->on_fork = 2;
 	pthread_mutex_lock(philo->sim->print_lock);
@@ -32,13 +46,6 @@ static char	take_forks(t_philosopher *philo)
 
 static char	eat(t_philosopher *philo)
 {
-	pthread_mutex_lock(philo->sim->state);
-	if(philo->if_alive == DEAD)
-	{
-		pthread_mutex_unlock(philo->sim->state);
-		return (1);
-	}
-	pthread_mutex_unlock(philo->sim->state);
 	pthread_mutex_lock(&philo->time_lock);
 	philo->last_meal_time = current_time();
 	philo->meals_eaten++;
@@ -49,7 +56,14 @@ static char	eat(t_philosopher *philo)
 	precise_sleep(philo->sim->time_to_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_lock(philo->sim->state);
 	philo->on_fork = 0;
+	if(philo->if_alive == DEAD)
+	{
+		pthread_mutex_unlock(philo->sim->state);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->sim->state);
 	return (0);
 }
 
@@ -60,6 +74,13 @@ static char	sleep_philo(t_philosopher *philo)
 	printf("%lld %d is sleeping\n", current_time(), philo->id);
 	pthread_mutex_unlock(philo->sim->print_lock);
 	precise_sleep(philo->sim->time_to_sleep);
+	pthread_mutex_lock(philo->sim->state);
+	if(philo->if_alive == DEAD)
+	{
+		pthread_mutex_unlock(philo->sim->state);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->sim->state);
 	return (0);
 }
 
@@ -69,6 +90,13 @@ static char	think(t_philosopher *philo)
 	pthread_mutex_lock(philo->sim->print_lock);
 	printf("%lld %d is thinking\n", current_time(), philo->id);
 	pthread_mutex_unlock(philo->sim->print_lock);
+	pthread_mutex_lock(philo->sim->state);
+	if(philo->if_alive == DEAD)
+	{
+		pthread_mutex_unlock(philo->sim->state);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->sim->state);
 	return (0);
 }
 

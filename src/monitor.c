@@ -31,14 +31,20 @@ int meals_finished(t_simulation *sim)
 
 int if_alive(t_philosopher *philo, t_simulation *sim)
 {
+    int i;
     long long time_since_last_meal;
 
+    i = 0;
     pthread_mutex_lock(&philo->time_lock);
     time_since_last_meal = current_time() - philo->last_meal_time;
     if (time_since_last_meal > sim->time_to_die)
     {
         pthread_mutex_lock(sim->state);
-        philo->if_alive = DEAD;
+        while(i < sim->number_of_philos)
+        {
+            sim->philos[i].if_alive = DEAD;
+            i++;
+        }
         pthread_mutex_unlock(sim->state);
         pthread_mutex_unlock(&philo->time_lock);
         pthread_mutex_lock(sim->print_lock);
@@ -64,7 +70,7 @@ void *monitor(void *arg)
         {
             if (if_alive(&sim->philos[i], sim))
             {
-                exit(0);  // Exit if a philosopher has died
+                return (NULL);  // Exit if a philosopher has died
             }
 			i++;
         }
