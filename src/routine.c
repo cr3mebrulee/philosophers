@@ -15,13 +15,14 @@
 static char	take_forks(t_philosopher *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
+	philo->on_fork = 1;
 	if (philo->right_fork == philo->left_fork)
 	{
 		printf("%lld %d has taken a fork\n", current_time(), philo->id);
-		pthread_mutex_unlock(philo->right_fork);
 		return (1);
 	}
 	pthread_mutex_lock(philo->left_fork);
+	philo->on_fork = 2;
 	pthread_mutex_lock(philo->sim->print_lock);
 	printf("%lld %d has taken a fork\n", current_time(), philo->id);
 	printf("%lld %d has taken a fork\n", current_time(), philo->id);
@@ -34,7 +35,7 @@ static char	eat(t_philosopher *philo)
 	pthread_mutex_lock(philo->sim->state);
 	if(philo->if_alive == DEAD)
 	{
-		printf("Philosopher %d is DEAD\n", philo->id);
+		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
 	pthread_mutex_unlock(philo->sim->state);
@@ -48,9 +49,7 @@ static char	eat(t_philosopher *philo)
 	precise_sleep(philo->sim->time_to_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_lock(philo->sim->print_lock);
-	printf("\033[1;31mPhilo %d ate %d times\033[0m\n", philo->id, philo->meals_eaten);
-	pthread_mutex_unlock(philo->sim->print_lock);
+	philo->on_fork = 0;
 	return (0);
 }
 
@@ -89,6 +88,15 @@ void	*routine(void *arg)
 				|| sleep_philo(philo)
 				|| think(philo))
 				break ;
+	}
+	if (philo->on_fork == 1)
+	{
+		pthread_mutex_unlock(philo->right_fork);
+	}
+	if (philo->on_fork == 2)
+	{
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
 	}
 	return (NULL);
 }
