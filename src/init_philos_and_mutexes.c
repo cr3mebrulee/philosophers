@@ -49,11 +49,12 @@ int	init_philos(t_simulation *sim)
 
 	i = 0;
 	num = sim->number_of_philos;
+	sim->if_alive = ALIVE;
+	sim->satisfaction = STARVING;
 	while (i < num)
 	{
 		sim->philos[i].id = i + 1;
 		sim->philos[i].meals_eaten = 0;
-		sim->philos[i].if_alive = ALIVE;
 		//assign left and right forks to philosophers with opposite order for the last philosopher
 		if(sim->philos[i].id == sim->number_of_philos)
 		{

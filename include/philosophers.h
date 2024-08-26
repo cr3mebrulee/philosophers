@@ -31,7 +31,8 @@ typedef enum e_enumeration
 {
 	DEAD,
 	ALIVE,
-	SATISFIED
+	SATISFIED,
+	STARVING
 }	t_philosopher_status;
 
 //Storage of uniq data for each philosopher
@@ -39,7 +40,6 @@ typedef struct s_philosopher
 {
 	int					id;
 	int					meals_eaten;
-	int					if_alive;
 	int					on_fork;
 	long long			last_meal_time;
 	pthread_mutex_t		*left_fork;
@@ -57,6 +57,8 @@ typedef struct s_simulation
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					number_of_meals;
+	volatile int		if_alive;
+	volatile int		satisfaction;
 	pthread_t			monitor_thread;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		*print_lock;
