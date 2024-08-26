@@ -47,7 +47,6 @@ static char	eat(t_philosopher *philo)
 		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
-	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->sim->state);
 	pthread_mutex_lock(&philo->time_lock);
 	philo->last_meal_time = current_time();
@@ -69,6 +68,7 @@ static char	sleep_philo(t_philosopher *philo)
 	pthread_mutex_unlock(philo->sim->print_lock);
 	precise_sleep(philo->sim->time_to_sleep);
 	pthread_mutex_lock(philo->sim->state);
+	philo->meals_eaten++;
 	philo->on_fork = 0;
 	if (philo->sim->if_alive == DEAD)
 	{
