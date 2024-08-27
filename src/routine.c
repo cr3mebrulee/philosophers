@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:10:09 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/08/26 20:53:55 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:19:48 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,14 +126,14 @@ void	*routine(void *arg)
 				|| think(philo))
 				break ;
 	}
-	if (philo->on_fork == 1)
-	{
-		pthread_mutex_unlock(philo->right_fork);
-	}
-	if (philo->on_fork == 2)
-	{
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
-	}
+	// if (philo->on_fork == 1)
+	// {
+	// 	pthread_mutex_unlock(philo->right_fork);
+	// }
+	// if (philo->on_fork == 2)
+	// {
+	// 	pthread_mutex_unlock(philo->right_fork);
+	// 	pthread_mutex_unlock(philo->left_fork);
+	// }
 	return (NULL);
 }
