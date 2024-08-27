@@ -40,7 +40,7 @@ typedef struct s_philosopher
 {
 	int					id;
 	int					meals_eaten;
-	int					on_fork;
+	// int					on_fork;
 	long long			last_meal_time;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;

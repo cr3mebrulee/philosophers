@@ -42,10 +42,10 @@ int	if_alive(t_philosopher *philo, t_simulation *sim)
 	if (time_since_last_meal > sim->time_to_die)
 	{
 		sim->if_alive = DEAD;
-		pthread_mutex_unlock(sim->state);
 		pthread_mutex_lock(sim->print_lock);
 		printf("\033[1;31m%lld %d died\033[0m\n", time_since_last_meal, philo->id);
 		pthread_mutex_unlock(sim->print_lock);
+		pthread_mutex_unlock(sim->state);
 		return (1);
 	}
 	pthread_mutex_unlock(sim->state);

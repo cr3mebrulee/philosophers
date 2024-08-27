@@ -22,21 +22,25 @@
 static char	take_forks(t_philosopher *philo)
 {
 	pthread_mutex_lock(philo->sim->state);
-	philo->on_fork = 0;
 	if (philo->sim->if_alive == DEAD)
 	{
 		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
-	philo->on_fork = 1;
 	pthread_mutex_unlock(philo->sim->state);
 	pthread_mutex_lock(philo->right_fork);
-	pthread_mutex_lock(philo->left_fork);
+	pthread_mutex_lock(philo->sim->state);
+	if (philo->sim->if_alive == DEAD)
+	{
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->sim->state);
+		return (1);
+	}
 	pthread_mutex_lock(philo->sim->print_lock);
-	philo->on_fork = 2;
-	printf("%lld %d has taken a fork\n", current_time(), philo->id);
 	printf("%lld %d has taken a fork\n", current_time(), philo->id);
 	pthread_mutex_unlock(philo->sim->print_lock);
+	pthread_mutex_unlock(philo->sim->state);
+	pthread_mutex_lock(philo->left_fork);
 	return (0);
 }
 
@@ -48,14 +52,13 @@ static char	eat(t_philosopher *philo)
 		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
-	philo->last_meal_time = current_time();
-	pthread_mutex_unlock(philo->sim->state);
 	pthread_mutex_lock(philo->sim->print_lock);
+	printf("%lld %d has taken a fork\n", current_time(), philo->id);
 	printf("%lld %d is eating\n", philo->last_meal_time, philo->id);
 	pthread_mutex_unlock(philo->sim->print_lock);
+	philo->last_meal_time = current_time();
+	pthread_mutex_unlock(philo->sim->state);
 	precise_sleep(philo->sim->time_to_eat);
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
 	return (0);
 }
 
@@ -63,12 +66,18 @@ static char	eat(t_philosopher *philo)
 static char	sleep_philo(t_philosopher *philo)
 {
 	pthread_mutex_lock(philo->sim->state);
+	if(philo->sim->if_alive == DEAD)
+	{
+		pthread_mutex_unlock(philo->sim->state);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
 	philo->meals_eaten++;
-	philo->on_fork = 0;
-	pthread_mutex_unlock(philo->sim->state);
 	pthread_mutex_lock(philo->sim->print_lock);
 	printf("%lld %d is sleeping\n", current_time(), philo->id);
 	pthread_mutex_unlock(philo->sim->print_lock);
+	pthread_mutex_unlock(philo->sim->state);
 	precise_sleep(philo->sim->time_to_sleep);
 	// if (philo->sim->if_alive == DEAD)
 	// {
@@ -93,10 +102,10 @@ static char	think(t_philosopher *philo)
 		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
-	pthread_mutex_unlock(philo->sim->state);
 	pthread_mutex_lock(philo->sim->print_lock);
 	printf("%lld %d is thinking\n", current_time(), philo->id);
 	pthread_mutex_unlock(philo->sim->print_lock);
+	pthread_mutex_unlock(philo->sim->state);
 	return (0);
 }
 
