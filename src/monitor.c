@@ -37,10 +37,12 @@ int	if_alive(t_philosopher *philo, t_simulation *sim)
 
 	long long	time_since_last_meal;
 
-	pthread_mutex_lock(sim->state);
+	pthread_mutex_lock(&philo->time_lock);
 	time_since_last_meal = current_time() - philo->last_meal_time;
+	pthread_mutex_unlock(&philo->time_lock);
 	if (time_since_last_meal > sim->time_to_die)
 	{
+		pthread_mutex_lock(sim->state);
 		sim->if_alive = DEAD;
 		pthread_mutex_lock(sim->print_lock);
 		printf("\033[1;31m%lld %d died\033[0m\n", time_since_last_meal, philo->id);

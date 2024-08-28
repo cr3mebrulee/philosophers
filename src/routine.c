@@ -22,18 +22,17 @@
 static char	take_forks(t_philosopher *philo)
 {
 	pthread_mutex_lock(philo->sim->state);
+	philo->on_fork = 0;
 	if (philo->sim->if_alive == DEAD)
 	{
-		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
+	philo->on_fork = 1;
 	pthread_mutex_unlock(philo->sim->state);
 	pthread_mutex_lock(philo->right_fork);
 	pthread_mutex_lock(philo->sim->state);
 	if (philo->sim->if_alive == DEAD)
 	{
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
 	pthread_mutex_lock(philo->sim->print_lock);
@@ -46,17 +45,19 @@ static char	take_forks(t_philosopher *philo)
 
 static char	eat(t_philosopher *philo)
 {
+	pthread_mutex_lock(&philo->time_lock);
+	philo->last_meal_time = current_time();
+	pthread_mutex_unlock(&philo->time_lock);
 	pthread_mutex_lock(philo->sim->state);
+	philo->on_fork = 2;
 	if(philo->sim->if_alive == DEAD)
 	{
-		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
 	pthread_mutex_lock(philo->sim->print_lock);
 	printf("%lld %d has taken a fork\n", current_time(), philo->id);
 	printf("%lld %d is eating\n", philo->last_meal_time, philo->id);
 	pthread_mutex_unlock(philo->sim->print_lock);
-	philo->last_meal_time = current_time();
 	pthread_mutex_unlock(philo->sim->state);
 	precise_sleep(philo->sim->time_to_eat);
 	return (0);
@@ -68,9 +69,9 @@ static char	sleep_philo(t_philosopher *philo)
 	pthread_mutex_lock(philo->sim->state);
 	if(philo->sim->if_alive == DEAD)
 	{
-		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
+	philo->on_fork = 0;
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 	philo->meals_eaten++;
@@ -79,12 +80,6 @@ static char	sleep_philo(t_philosopher *philo)
 	pthread_mutex_unlock(philo->sim->print_lock);
 	pthread_mutex_unlock(philo->sim->state);
 	precise_sleep(philo->sim->time_to_sleep);
-	// if (philo->sim->if_alive == DEAD)
-	// {
-	// 	pthread_mutex_unlock(philo->sim->state);
-	// 	return (1);
-	// }
-	// pthread_mutex_unlock(philo->sim->state);
 	return (0);
 }
 
@@ -94,12 +89,10 @@ static char	think(t_philosopher *philo)
 	pthread_mutex_lock(philo->sim->state);
 	if(philo->sim->if_alive == DEAD)
 	{
-		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
 	if (philo->sim->satisfaction == SATISFIED)
 	{
-		pthread_mutex_unlock(philo->sim->state);
 		return (1);
 	}
 	pthread_mutex_lock(philo->sim->print_lock);
@@ -115,9 +108,9 @@ void	*routine(void *arg)
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *)arg;
-	pthread_mutex_lock(philo->sim->state);
+	pthread_mutex_lock(&philo->time_lock);
 	philo->last_meal_time = current_time();
-	pthread_mutex_unlock(philo->sim->state);
+	pthread_mutex_unlock(&philo->time_lock);
 	while (1)
 	{
 		if (take_forks(philo)
@@ -126,14 +119,15 @@ void	*routine(void *arg)
 				|| think(philo))
 				break ;
 	}
-	// if (philo->on_fork == 1)
-	// {
-	// 	pthread_mutex_unlock(philo->right_fork);
-	// }
-	// if (philo->on_fork == 2)
-	// {
-	// 	pthread_mutex_unlock(philo->right_fork);
-	// 	pthread_mutex_unlock(philo->left_fork);
-	// }
+	if (philo->on_fork == 1)
+	{
+		pthread_mutex_unlock(philo->right_fork);
+	}
+	if (philo->on_fork == 2)
+	{
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
+	}
+	pthread_mutex_unlock(philo->sim->state);
 	return (NULL);
 }

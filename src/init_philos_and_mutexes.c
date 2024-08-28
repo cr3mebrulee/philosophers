@@ -55,6 +55,7 @@ int	init_philos(t_simulation *sim)
 	{
 		sim->philos[i].id = i + 1;
 		sim->philos[i].meals_eaten = 0;
+		sim->philos[i].on_fork = 0;
 		if (sim->philos[i].id == sim->number_of_philos)
 		{
 			sim->philos[i].right_fork = &sim->forks[(i + 1) % num];
