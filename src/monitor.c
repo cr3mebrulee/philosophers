@@ -50,7 +50,6 @@ int	if_alive(t_philosopher *philo, t_simulation *sim)
 		pthread_mutex_unlock(sim->state);
 		return (1);
 	}
-	pthread_mutex_unlock(sim->state);
 	return (0);
 }
 
@@ -79,7 +78,7 @@ void	*monitor(void *arg)
 				return (NULL);
 			}
 		}
- 		precise_sleep (100);
+ 		precise_sleep (10);
 	}
 	return (NULL);
 }

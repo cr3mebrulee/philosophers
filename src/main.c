@@ -111,5 +111,6 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	free_resources(sim, 1, 1);
+	free(sim);
 	return (0);
 }

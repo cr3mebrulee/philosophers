@@ -12,13 +12,6 @@
 
 #include "../include/philosophers.h"
 
-// if (philo->right_fork == philo->left_fork)
-// 	{
-// 		pthread_mutex_unlock(philo->sim->state);
-// 		printf("%lld %d has taken a fork\n", current_time(), philo->id);
-// 		return (1);
-// 	}
-
 static char	take_forks(t_philosopher *philo)
 {
 	pthread_mutex_lock(philo->sim->state);
@@ -30,6 +23,12 @@ static char	take_forks(t_philosopher *philo)
 	philo->on_fork = 1;
 	pthread_mutex_unlock(philo->sim->state);
 	pthread_mutex_lock(philo->right_fork);
+	if (philo->right_fork == philo->left_fork)
+	{
+		pthread_mutex_unlock(philo->sim->state);
+		printf("%lld %d has taken a fork\n", current_time(), philo->id);
+		return (1);
+	}
 	pthread_mutex_lock(philo->sim->state);
 	if (philo->sim->if_alive == DEAD)
 	{
@@ -59,6 +58,10 @@ static char	eat(t_philosopher *philo)
 	printf("%lld %d is eating\n", philo->last_meal_time, philo->id);
 	pthread_mutex_unlock(philo->sim->print_lock);
 	pthread_mutex_unlock(philo->sim->state);
+	// if (interrupted_eating(philo) == 1)
+	// {
+	// 	return (1);
+	// }
 	precise_sleep(philo->sim->time_to_eat);
 	return (0);
 }
