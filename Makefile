@@ -4,6 +4,7 @@ LIBFT	= ./libft/libft.a
 SRCS 	= src/main.c\
 					src/parse_arguments.c\
 					src/init_simulations.c\
+					src/allocate_memory.c\
 					src/init_philos_and_mutexes.c\
 					src/create_threads.c\
 					src/routine.c\

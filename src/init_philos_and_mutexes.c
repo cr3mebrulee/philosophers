@@ -10,12 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philosophers.h"
+#include "philosophers.h"
 
 int	init_mutexes(t_simulation *sim)
 {
 	int	i;
 	int	num;
+	// const bool print_lock;
+	// const bool state_lock;
 
 	i = 0;
 	num = sim->number_of_philos;
@@ -23,20 +25,24 @@ int	init_mutexes(t_simulation *sim)
 	{
 		if (pthread_mutex_init(&(sim->forks[i]), NULL) != 0)
 		{
+			destroy_mutexes(sim, i, false, false);
 			return (1);
 		}
 		if (pthread_mutex_init(&(sim->philos[i].time_lock), NULL) != 0)
 		{
+			destroy_mutexes(sim, i, false, false);
 			return (1);
 		}
 		i++;
 	}
 	if (pthread_mutex_init(sim->print_lock, NULL) != 0)
 	{
+		destroy_mutexes(sim, i, true, false);
 		return (1);
 	}
 	if (pthread_mutex_init(sim->state, NULL) != 0)
 	{
+		destroy_mutexes(sim, i, true, true);
 		return (1);
 	}
 	return (0);
@@ -70,41 +76,5 @@ int	init_philos(t_simulation *sim)
 		sim->philos[i].last_meal_time = current_time();
 		i++;
 	}
-	return (0);
-}
-
-int	allocate_memory(t_simulation *sim)
-{
-	sim->forks = malloc(sizeof(pthread_mutex_t) * sim->number_of_philos);
-	if (!sim->forks)
-	{
-		return (1);
-	}
-	memset(sim->forks, 0, sizeof(pthread_mutex_t) * sim->number_of_philos);
-
-	sim->philos = malloc(sizeof(t_philosopher) * sim->number_of_philos);
-	if (!sim->philos)
-	{
-		free(sim->forks);
-		return (1);
-	}
-	memset(sim->philos, 0, sizeof(t_philosopher) * sim->number_of_philos);
-	sim->state = malloc(sizeof(pthread_mutex_t));
-	if (!sim->state)
-	{
-		free(sim->philos);
-		free(sim->forks);
-		return (1);
-	}
-	memset(sim->state, 0, sizeof(pthread_mutex_t));
-	sim->print_lock = malloc(sizeof(pthread_mutex_t));
-	if (!sim->print_lock)
-	{
-		free(sim->state);
-		free(sim->philos);
-		free(sim->forks);
-		return (1);
-	}
-	memset(sim->print_lock, 0, sizeof(pthread_mutex_t));
 	return (0);
 }

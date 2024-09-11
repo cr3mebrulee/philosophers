@@ -1,4 +1,4 @@
-#include "../include/philosophers.h"
+#include "philosophers.h"
 
 // Struct to calculate the time from the UNIX epoch in milliseconds
 // 1 second = 1 000 milliseconds = 1 000 000 microseconds

@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <stdint.h>
+# include <stdbool.h>
 
 # define USAGE_MESSAGE "\
 Usage: number_of_philosophers time_to_die time_to_eat \
@@ -79,6 +80,7 @@ void 		*monitor(void *arg);
 void		*routine(void *arg);
 void		print_simulation(t_simulation *sim);
 int			create_threads(t_simulation *sim);
-int 		free_resources(t_simulation *sim, int forks, int philos);
+void 		free_memory(t_simulation *sim);
+void 		destroy_mutexes(t_simulation *sim, int num_init_mutex, const bool print_lock, const bool state_lock);
 
 #endif

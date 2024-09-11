@@ -10,19 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philosophers.h"
+#include "philosophers.h"
 
 int	create_monitor_thread(t_simulation *sim)
 {
 	int result;
 
-    // Ensure sim is not null
     if (!sim)
     {
         printf("Error: Simulation struct is null\n");
         return (1);
     }
-    // Attempt to create the monitor thread
     result = pthread_create(&(sim->monitor_thread), NULL, monitor, (void *)sim);
     if (result != 0)
     {
@@ -60,7 +58,6 @@ int	create_threads(t_simulation *sim)
 	}
 	if(create_monitor_thread(sim) != 0)
 	{
-		//join_philos_thread(sim);
 		return (1);
 	}
 	return (0);
