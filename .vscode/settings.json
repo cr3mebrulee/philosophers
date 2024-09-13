@@ -57,12 +57,13 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
-    "philosophers.h": "c",
-    "array": "c",
-    "memory": "c",
-    "functional": "c",
-    "tuple": "c",
-    "utility": "c",
-    "algorithm": "c"
-  }
+	"philosophers.h": "c",
+	"array": "c",
+	"memory": "c",
+	"functional": "c",
+	"tuple": "c",
+	"utility": "c",
+	"algorithm": "c",
+	"philo.h": "c"
+}
 }

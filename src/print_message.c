@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debugging_functions.c                              :+:      :+:    :+:   */
+/*   print_message.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 16:08:39 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/29 16:19:46 by taretiuk         ###   ########.fr       */
+/*   Created: 2024/09/12 14:30:29 by taretiuk          #+#    #+#             */
+/*   Updated: 2024/09/12 14:37:35 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo.h"
 
-void	print_simulation(t_simulation *sim)
+void	print_message(t_philosopher *philo, const char *message)
 {
-	printf("Simulation Parameters:\n");
-	printf("Number of Philosophers: %d\n", sim->number_of_philos);
-	printf("Time to Die: %d\n", sim->time_to_die);
-	printf("Time to Eat: %d\n", sim->time_to_eat);
-	printf("Time to Sleep: %d\n", sim->time_to_sleep);
-	printf("Number of Meals: %d\n\n", sim->number_of_meals);
+	pthread_mutex_lock(philo->sim->print_lock);
+	printf("%lld %d %s\n", current_time(), philo->id, message);
+	pthread_mutex_unlock(philo->sim->print_lock);
 }

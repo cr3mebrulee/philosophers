@@ -8,8 +8,10 @@ SRCS 	= src/main.c\
 					src/init_philos_and_mutexes.c\
 					src/create_threads.c\
 					src/routine.c\
-					src/debugging_functions.c\
+					src/print_message.c\
+					src/release_mutexes.c\
 					src/free_resources.c\
+					src/join_threads.c\
 					src/current_time.c\
 					src/monitor.c
 
@@ -19,6 +21,7 @@ HEADER	= -I include
 
 CC 		= cc
 CFLAGS 	= -Wall -Wextra -Werror -g
+LDFLAGS = -fsanitize=thread
 
 all: 	libft	${NAME}
 
