@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:20:15 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 11:20:55 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:43:39 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,23 +77,24 @@ typedef struct s_mutex_info
 	bool	state_lock_init;
 }	t_mutex_info;
 
-
+int			parse_arguments(int argc, char **argv, t_simulation *sim,
+				t_mutex_info *mutex_info);
 int			is_number(const char *str);
-int			parse_arguments(int argc, char **argv, t_simulation *sim);
-int			init_simulations(int argc, char **argv, t_simulation *sim);
-int			init_mutexes(t_simulation *sim);
+int			init_simulations(int argc, char **argv, t_simulation *sim,
+				t_mutex_info *mutex_info);
+int			init_mutexes(t_simulation *sim, t_mutex_info *mutex_info);
+int			allocate_memory(t_simulation *sim, t_mutex_info *mutex_info);
 int			init_philos(t_simulation *sim);
-int			allocate_memory(t_simulation *sim);
-void		precise_sleep(int ms);
-long long	current_time(void);
 void		*monitor(void *arg);
 void		*routine(void *arg);
 void		print_message(t_philosopher *philo, const char *message);
-int			create_threads(t_simulation *sim);
 void		release_mutexes(t_philosopher *philo);
-void		free_memory(t_simulation *sim);
+void		precise_sleep(int ms);
+long long	current_time(void);
+int			create_threads(t_simulation *sim, t_mutex_info *mutex_info);
 int			join_threads(t_simulation *sim);
-void		destroy_mutexes(t_simulation *sim, int num_forks, int num_times,
-				const bool print_lock, const bool state_lock);
+void		free_structures(t_simulation *sim, t_mutex_info *mutex_info);
+void		free_memory(t_simulation *sim, t_mutex_info *mutex_info);
+void		destroy_mutexes(t_simulation *sim, t_mutex_info *mutex_info);
 
 #endif

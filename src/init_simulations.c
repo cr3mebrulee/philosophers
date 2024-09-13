@@ -6,13 +6,14 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:11:18 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/12 18:58:23 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:51:08 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_simulations(int argc, char **argv, t_simulation *sim)
+int	init_simulations(int argc, char **argv, t_simulation *sim,
+			t_mutex_info *mutex_info)
 {
 	sim->number_of_philos = ft_atoi(argv[1]);
 	sim->time_to_die = ft_atoi(argv[2]);
@@ -31,7 +32,7 @@ int	init_simulations(int argc, char **argv, t_simulation *sim)
 		|| (argc == 6 && sim->number_of_meals < 0))
 	{
 		ft_printf("Usage: Arguments are positive integers greater than zero.\n");
-		free_memory(sim);
+		free_structures(sim, mutex_info);
 		return (1);
 	}
 	return (0);
