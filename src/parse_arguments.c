@@ -6,11 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:45:43 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/31 12:37:34 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:58:48 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philosophers.h"
+#include "philo.h"
 
 int	is_number(const char *str)
 {
@@ -32,7 +32,7 @@ int	is_number(const char *str)
 	return (1);
 }
 
-int	parse_arguments(int argc, char **argv)
+int	parse_arguments(int argc, char **argv, t_simulation *sim)
 {
 	int	i;
 
@@ -47,6 +47,7 @@ int	parse_arguments(int argc, char **argv)
 		if (!is_number(argv[i]))
 		{
 			printf("Usage: Arguments are positive integers.\n");
+			free_memory(sim);
 			return (0);
 		}
 		i++;
