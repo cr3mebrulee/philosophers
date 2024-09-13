@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 10:21:57 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 11:04:51 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/13 11:29:08 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static int	init_mutex_state(t_simulation *sim)
 {
 	int	num;
-
 	num = sim->number_of_philos;
 	if (pthread_mutex_init(sim->state, NULL) != 0)
 	{
