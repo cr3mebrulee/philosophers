@@ -6,11 +6,16 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:45:43 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 13:58:18 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/14 13:18:10 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
 
 int	is_number(const char *str)
 {

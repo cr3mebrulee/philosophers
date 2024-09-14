@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:10:09 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/12 18:32:00 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/14 13:27:07 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ static char	take_forks(t_philosopher *philo)
 	philo->on_fork = 1;
 	pthread_mutex_unlock(philo->sim->state);
 	pthread_mutex_lock(philo->right_fork);
+	pthread_mutex_lock(philo->sim->state);
 	if (philo->right_fork == philo->left_fork)
 	{
 		print_message(philo, "has taken a fork");
 		return (1);
 	}
-	pthread_mutex_lock(philo->sim->state);
 	if (philo->sim->if_alive == DEAD)
 	{
 		return (1);

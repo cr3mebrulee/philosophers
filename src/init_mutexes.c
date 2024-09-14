@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 10:21:57 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 14:46:18 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/14 13:03:06 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 static int	init_mutex_state(t_simulation *sim, t_mutex_info *mutex_info)
 {
-	int	num;
-
-	num = sim->number_of_philos;
 	if (pthread_mutex_init(sim->state, NULL) != 0)
 	{
 		mutex_info->state_lock_init = false;
@@ -30,9 +27,6 @@ static int	init_mutex_state(t_simulation *sim, t_mutex_info *mutex_info)
 
 static int	init_mutex_print(t_simulation *sim, t_mutex_info *mutex_info)
 {
-	int				num;
-
-	num = sim->number_of_philos;
 	if (pthread_mutex_init(sim->print_lock, NULL) != 0)
 	{
 		mutex_info->print_lock_init = false;

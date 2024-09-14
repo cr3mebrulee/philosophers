@@ -6,11 +6,36 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:11:18 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 14:51:08 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/14 13:20:16 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_atoi(const char *str)
+{
+	int	i;
+	int	sign;
+	int	result;
+
+	i = 0;
+	sign = 1;
+	result = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = (str[i] - '0') + (result * 10);
+		i++;
+	}
+	return (result * sign);
+}
 
 int	init_simulations(int argc, char **argv, t_simulation *sim,
 			t_mutex_info *mutex_info)
@@ -31,7 +56,7 @@ int	init_simulations(int argc, char **argv, t_simulation *sim,
 		|| sim->time_to_eat <= 0 || sim->time_to_sleep <= 0
 		|| (argc == 6 && sim->number_of_meals < 0))
 	{
-		ft_printf("Usage: Arguments are positive integers greater than zero.\n");
+		printf("Usage: Arguments are positive integers greater than zero.\n");
 		free_structures(sim, mutex_info);
 		return (1);
 	}
