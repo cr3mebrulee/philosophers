@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:24:10 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 09:52:04 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/14 13:30:57 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ int	if_alive(t_philosopher *philo, t_simulation *sim)
 	{
 		pthread_mutex_lock(sim->state);
 		sim->if_alive = DEAD;
-		pthread_mutex_lock(sim->print_lock);
-		printf("\033[1;31m%lld %d died after %lld\033[0m\n",
-			current_time(), philo->id, time_since_last_meal);
-		pthread_mutex_unlock(sim->print_lock);
+		print_message(philo, "died");
 		pthread_mutex_unlock(sim->state);
 		return (1);
 	}

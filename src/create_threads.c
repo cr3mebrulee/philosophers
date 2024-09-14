@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 11:28:53 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/12 18:55:27 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:44:33 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,18 @@ int	create_philos_thread(t_simulation *sim)
 	return (0);
 }
 
-int	create_threads(t_simulation *sim)
+int	create_threads(t_simulation *sim, t_mutex_info *mutex_info)
 {
 	if (create_philos_thread(sim) != 0)
 	{
-		free_memory(sim);
+		destroy_mutexes(sim, mutex_info);
+		free_memory(sim, mutex_info);
 		return (1);
 	}
 	if (create_monitor_thread(sim) != 0)
 	{
-		free_memory(sim);
+		destroy_mutexes(sim, mutex_info);
+		free_memory(sim, mutex_info);
 		return (1);
 	}
 	return (0);

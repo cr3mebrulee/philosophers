@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_resources.c                                   :+:      :+:    :+:   */
+/*   destriy_mutexes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 10:34:18 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 11:16:35 by taretiuk         ###   ########.fr       */
+/*   Created: 2024/09/13 11:55:27 by taretiuk          #+#    #+#             */
+/*   Updated: 2024/09/13 11:55:40 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,52 +50,22 @@ static void	destroy_forks(t_simulation *sim, int num_forks)
 	return ;
 }
 
-void	destroy_mutexes(t_simulation *sim, int num_forks, int num_times,
-				const bool print_lock, const bool state_lock)
+void	destroy_mutexes(t_simulation *sim, t_mutex_info *mutex_info)
 {
-	if (num_forks > 0)
+	if (mutex_info->num_forks > 0)
 	{
-		destroy_forks(sim, num_forks);
+		destroy_forks(sim, mutex_info->num_forks);
 	}
-	if (num_times > 0)
+	if (mutex_info->num_times > 0)
 	{
-		destroy_times(sim, num_times);
+		destroy_times(sim, mutex_info->num_times);
 	}
-	if (print_lock == true)
+	if (mutex_info->print_lock_init)
 	{
 		destroy_print(sim);
 	}
-	if (state_lock == true)
+	if (mutex_info->state_lock_init)
 	{
 		destroy_state(sim);
-	}
-}
-
-void	free_memory(t_simulation *sim)
-{
-	if (sim->forks)
-	{
-		free(sim->forks);
-		sim->forks = NULL;
-	}
-	if (sim->philos)
-	{
-		free(sim->philos);
-		sim->philos = NULL;
-	}
-	if (sim->state)
-	{
-		free(sim->state);
-		sim->state = NULL;
-	}
-	if (sim->print_lock)
-	{
-		free(sim->print_lock);
-		sim->print_lock = NULL;
-	}
-	if (sim)
-	{
-		free(sim);
-		sim = NULL;
 	}
 }
