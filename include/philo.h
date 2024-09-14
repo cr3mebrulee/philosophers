@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:20:15 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 14:43:39 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/14 15:43:37 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include <ctype.h>
-# include "../libft/libft.h"
 # include <pthread.h>
 # include <unistd.h>
 # include <sys/time.h>

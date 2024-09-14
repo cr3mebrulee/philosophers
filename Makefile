@@ -16,29 +16,27 @@ SRCS 	= src/main.c\
 					src/current_time.c\
 					src/monitor.c
 
-OBJS 	= ${SRCS:.c=.o}
+OBJS    = ${SRCS:.c=.o}
 
-HEADER	= -I include
+HEADER  = -I include
 
-CC 		= cc
-CFLAGS 	= -Wall -Wextra -Werror -g
+CC      = cc
+CFLAGS  = -Wall -Werror -Wextra -g -fsanitize=thread ${HEADER}
 
-all: 	${NAME}
+all: ${NAME}
 
 %.o: %.c
-	@echo "\033[33m----Compiling ${@}----"
-	@$(CC) ${CFLAGS} ${HEADER} -c $< -o $@
+	${CC} ${CFLAGS} -c $< -o $@
 
-${NAME}:	${OBJS}
-					@echo "\033[33m----Compiling philosophers binary----\033[0m"
-					@$(CC) ${OBJS} -o ${NAME}
+${NAME}: ${OBJS}
+	${CC} ${CFLAGS} ${OBJS} -o ${NAME} -lpthread
 
 clean:
-					@rm -f ${OBJS}
+	rm -f ${OBJS}
 
-fclean: 	clean
-					@rm -f ${NAME}
+fclean: clean
+	rm -f ${NAME}
 
-re:			fclean all
+re: fclean all
 
 .PHONY: all clean fclean re
