@@ -6,11 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:10:09 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/14 13:27:07 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:34:16 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
 static char	take_forks(t_philosopher *philo)
 {

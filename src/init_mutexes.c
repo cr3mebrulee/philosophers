@@ -6,11 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 10:21:57 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/14 13:03:06 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:34:43 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
 static int	init_mutex_state(t_simulation *sim, t_mutex_info *mutex_info)
 {

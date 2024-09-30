@@ -6,11 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:31:21 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/14 13:25:42 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:34:21 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
 void	release_mutexes(t_philosopher *philo)
 {

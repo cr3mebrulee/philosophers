@@ -6,11 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:50:41 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/12 20:23:29 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:34:35 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
 int	join_philos_threads(t_simulation *sim)
 {

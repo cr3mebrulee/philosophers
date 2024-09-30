@@ -6,11 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:04 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 14:41:38 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:34:32 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
 int	main(int argc, char **argv)
 {

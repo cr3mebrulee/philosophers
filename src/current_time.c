@@ -6,11 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 12:55:56 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/12 18:37:33 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:34:52 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
 long long	current_time(void)
 {

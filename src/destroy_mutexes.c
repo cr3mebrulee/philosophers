@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destriy_mutexes.c                                  :+:      :+:    :+:   */
+/*   destroy_mutexes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 11:55:27 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 11:55:40 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:34:50 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
 static void	destroy_state(t_simulation *sim)
 {

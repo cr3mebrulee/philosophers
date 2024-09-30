@@ -6,11 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:15:06 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 10:22:38 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:34:41 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
 static void	assignments(t_simulation *sim, int i, int num)
 {

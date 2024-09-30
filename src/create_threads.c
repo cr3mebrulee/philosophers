@@ -6,11 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 11:28:53 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 14:44:33 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:34:55 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
 int	create_monitor_thread(t_simulation *sim)
 {

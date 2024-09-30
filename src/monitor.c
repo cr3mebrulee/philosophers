@@ -6,11 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:24:10 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/14 13:30:57 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:34:30 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
 int	meals_finished(t_simulation *sim)
 {

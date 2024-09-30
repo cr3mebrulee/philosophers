@@ -6,11 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 12:55:42 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/13 14:52:42 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:34:58 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
 int	allocate_philos(t_simulation *sim, t_mutex_info *mutex_info)
 {

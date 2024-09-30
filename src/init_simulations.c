@@ -6,11 +6,11 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:11:18 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/09/14 13:20:16 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:34:38 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
 int	ft_atoi(const char *str)
 {

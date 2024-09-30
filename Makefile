@@ -21,7 +21,7 @@ OBJS    = ${SRCS:.c=.o}
 HEADER  = -I include
 
 CC      = cc
-CFLAGS  = -Wall -Werror -Wextra -g -fsanitize=thread ${HEADER}
+CFLAGS  = -Wall -Werror -Wextra -g ${HEADER}
 
 all: ${NAME}
 
